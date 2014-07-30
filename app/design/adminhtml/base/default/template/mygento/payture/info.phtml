@@ -1,0 +1,86 @@
+<?php
+/**
+ * Sea Lab Ltd.
+ *
+ * @category Mygento
+ * @package Mygento_Payture
+ * @copyright Copyright © 2014 Sea Lab Ltd. (http://www.mygento.ru)
+ */
+?>
+<strong><?php echo $this->getPaytureName(); ?></strong>
+<br/><br/>
+<?php $payture_state=$this->getState(); ?>
+<?php if ($payture_state == 'Authorized' && !Mage::registry('current_order')->hasInvoices()) : ?>
+    <!-- complete -->
+    <div class="f-left">
+        <button class="scalable task" type="button"  onclick="setLocation('<?php echo $this->getAcceptTransactionlink(); ?>')" title="<?php echo $this->__('Complete payment'); ?>">
+            <span>
+                <span>
+                    <span><?php echo $this->__('Complete payment'); ?></span>
+                </span>
+            </span>
+        </button>           
+    </div>
+    <br/><br/> 
+<?php endif; ?>
+<?php if ($this->getOrder()->hasInvoices() && $payture_state != 'Refunded'): ?>
+    <!-- refund -->    
+    <div>
+        <input id="refundsum" value="<?php echo $this->getTotalSum(); ?>">&nbsp;RUB&nbsp;
+        <button class="scalable task" type="button" onclick="refund();" title="<?php echo $this->__('Refund sum'); ?>">
+            <span>
+                <span>
+                    <span><?php echo $this->__('Refund sum'); ?></span>
+                </span>
+            </span>
+        </button>
+    </div>
+    <script type="text/javascript">
+        //<![CDATA[
+        function refund() {
+            new Ajax.Request('<?php echo $this->getRefundlink(); ?>', {
+                method: 'post',
+                parameters: {'sum': $('refundsum').value},
+                onSuccess: function(transport) {
+                    location.reload(true);
+                }
+            });
+        }
+        //]]>
+    </script>
+    <br/><br/> 
+<?php endif; ?>
+<?php if ($payture_state == 'Authorized'): ?>
+    <!-- unblock -->
+    <div>
+        <input id="unblocksum" value="<?php echo $this->getTotalSum(); ?>">&nbsp;RUB&nbsp;
+        <button class="scalable task" type="button" onclick="unblock();" title="<?php echo $this->__('Unblock'); ?>">
+            <span>
+                <span>
+                    <span><?php echo $this->__('Unblock sum'); ?></span>
+                </span>
+            </span>
+        </button>
+    </div>
+    <script type="text/javascript">
+        //<![CDATA[
+        function unblock() {
+            new Ajax.Request('<?php echo $this->getUnblockTransactionlink(); ?>', {
+                method: 'post',
+                parameters: {'sum': $('unblocksum').value},
+                onSuccess: function(transport) {
+                    location.reload(true);
+                }
+            });
+        }
+        //]]>
+    </script>
+    <br/><br/> 
+<?php endif; ?>
+<div class="clear"></div>
+<?php
+$state=$this->getOrder()->getState();
+if (!$this->Ispaid() && $payture_state != 'Authorized' && $state != 'complete' && $state != 'closed' && $state != 'canceled'):
+    ?>
+    <p><a target="_blank" href="<?php echo $this->getPaylink(); ?>">Оплатить заказ</a></p>
+<?php endif; ?>
