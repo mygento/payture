@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<versions>
+    <version>
+        <date>08 января 2015г.</date>
+        <comment>Правки бага инвойсера</comment>
+        <ver>1.0.1</ver>
+    </version>
+    <version>
+        <date>30 июля 2014г.</date>
+        <comment>Релиз модуля</comment>
+        <ver>1.0.0</ver>
+    </version>
+</versions>

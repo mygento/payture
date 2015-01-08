@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Sea Lab Ltd.
+ * 
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2014 Sea Lab Ltd. (http://www.mygento.ru)
+ * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_Block_Version extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface {
 

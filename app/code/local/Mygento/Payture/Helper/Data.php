@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Sea Lab Ltd.
+ * 
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2014 Sea Lab Ltd. (http://www.mygento.ru)
+ * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract {
 
@@ -82,14 +82,14 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract {
                         ->addObject($invoice)
                         ->addObject($invoice->getOrder());
                 $transactionSave->save();
-                if (Mage::getStoreConfig('payment/avangard/send')) {
-                    $order->sendOrderUpdateEmail($order->getStatus(),Mage::getStoreConfig('payment/avangard/text'));
+                if (Mage::getStoreConfig('payment/payture/send')) {
+                    $order->sendOrderUpdateEmail($order->getStatus(),Mage::getStoreConfig('payment/payture/text'));
                 }
-                if (Mage::getStoreConfig('payment/avangard/sendinvoice')) {
+                if (Mage::getStoreConfig('payment/payture/sendinvoice')) {
                     $invoice->sendEmail();
                 }
-                if (Mage::getStoreConfig('payment/avangard/sendadmin') != '') {
-                    $this->sendCustomComment($order,Mage::getStoreConfig('payment/avangard/sendadmin'),Mage::getStoreConfig('payment/avangard/text'));
+                if (Mage::getStoreConfig('payment/payture/sendadmin') != '') {
+                    $this->sendCustomComment($order,Mage::getStoreConfig('payment/payture/sendadmin'),Mage::getStoreConfig('payment/payture/text'));
                 }
             } catch (Exception $e) {
                 $order->addStatusHistoryComment('Payture_Invoicer: Exception occurred during automaticall transaction action. Exception message: '.$e->getMessage(),false);
