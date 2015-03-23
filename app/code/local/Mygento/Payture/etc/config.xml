@@ -2,23 +2,24 @@
 <config>
     <modules>
         <Mygento_Payture>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Mygento_Payture>
     </modules>
     <global>
         <models>
             <payture>
                 <class>Mygento_Payture_Model</class>
-                <resourceModel>payture_mysql4</resourceModel>
+                <resourceModel>payture_resource</resourceModel>
             </payture>
-            <payture_mysql4>
-                <class>Mygento_Payture_Model_Mysql4</class>
+            <payture_resource>
+                <class>Mygento_Payture_Model_Resource</class>
+                <deprecatedNode>payture_mysql4</deprecatedNode>
                 <entities>
                     <keys>
                         <table>mygento_payture</table>
                     </keys>
                 </entities>
-            </payture_mysql4>
+            </payture_resource>
         </models>
         <blocks>
             <payture>
