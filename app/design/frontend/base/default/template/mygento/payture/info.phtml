@@ -1,16 +1,20 @@
 <?php
 /**
- * Sea Lab Ltd.
+ * 
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2014 Sea Lab Ltd. (http://www.mygento.ru)
+ * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
  */
+
 ?>
 <strong><?php echo $this->getPaytureName(); ?></strong>
-<?php
-$state=$this->getOrder()->getState();
-if (!$this->Ispaid() && $payture_state != 'Authorized' && $state != 'complete' && $state != 'closed' && $state != 'canceled'):
-    ?>
-    <p><a target="_blank" href="<?php echo $this->getPaylink(); ?>">Оплатить заказ</a></p>
+<?php if ($this->getOrder()): ?>
+    <?php
+    $state = $this->getOrder()->getState();
+    if (!$this->Ispaid() && $payture_state != 'Authorized' && $state != 'complete' && $state != 'closed' && $state != 'canceled'):
+
+        ?>
+        <p><a target="_blank" href="<?php echo $this->getPaylink(); ?>">Оплатить заказ</a></p>
+    <?php endif; ?>
 <?php endif; ?>

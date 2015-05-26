@@ -1,15 +1,16 @@
 <?php
 /**
- * Sea Lab Ltd.
+ * 
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2014 Sea Lab Ltd. (http://www.mygento.ru)
+ * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
  */
+
 ?>
 <strong><?php echo $this->getPaytureName(); ?></strong>
 <br/><br/>
-<?php $payture_state=$this->getState(); ?>
+<?php $payture_state = $this->getState(); ?>
 <?php if ($payture_state == 'Authorized' && !Mage::registry('current_order')->hasInvoices()) : ?>
     <!-- complete -->
     <div class="f-left">
@@ -41,7 +42,7 @@
             new Ajax.Request('<?php echo $this->getRefundlink(); ?>', {
                 method: 'post',
                 parameters: {'sum': $('refundsum').value},
-                onSuccess: function(transport) {
+                onSuccess: function (transport) {
                     location.reload(true);
                 }
             });
@@ -68,7 +69,7 @@
             new Ajax.Request('<?php echo $this->getUnblockTransactionlink(); ?>', {
                 method: 'post',
                 parameters: {'sum': $('unblocksum').value},
-                onSuccess: function(transport) {
+                onSuccess: function (transport) {
                     location.reload(true);
                 }
             });
@@ -79,8 +80,9 @@
 <?php endif; ?>
 <div class="clear"></div>
 <?php
-$state=$this->getOrder()->getState();
+$state = $this->getOrder()->getState();
 if (!$this->Ispaid() && $payture_state != 'Authorized' && $state != 'complete' && $state != 'closed' && $state != 'canceled'):
+
     ?>
     <p><a target="_blank" href="<?php echo $this->getPaylink(); ?>">Оплатить заказ</a></p>
 <?php endif; ?>
