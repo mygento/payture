@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  *
  * @category Mygento
  * @package Mygento_Payture
@@ -15,7 +15,7 @@ class Mygento_Payture_Model_Payture
         $collection = Mage::getModel('payture/keys')->getCollection();
         $collection->addFieldToFilter('orderid', $order->getId());
         $item = $collection->getFirstItem();
-        if ($item->getSessionid() == NULL) {
+        if ($item->getSessionid() == null) {
             $sessionid = $this->initSession($order, $enc_key, $item->getId());
         } else {
             $sessionid = $item->getSessionid();
@@ -78,7 +78,7 @@ class Mygento_Payture_Model_Payture
         $result = $this->requestAPI_GET(Mage::helper('payture')->getHost() . 'Init', $request);
         Mage::helper('payture')->AddLog($result);
         $xml = simplexml_load_string($result);
-        if ((bool) $xml["Success"][0] == TRUE) {
+        if ((bool) $xml["Success"][0] == true) {
             if ($xml["SessionId"][0]) {
                 $item = Mage::getModel('payture/keys')->load($itemid);
                 $item->setSessionid($xml["SessionId"][0]);

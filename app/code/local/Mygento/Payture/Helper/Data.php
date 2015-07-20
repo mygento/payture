@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  *
  * @category Mygento
  * @package Mygento_Payture
@@ -45,7 +45,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             $key = strtr(base64_encode(microtime() . $order_id . rand(1, 1048576)), '+/=', '-_,');
             $model->setHkey($key);
             $model->setOrderid($order_id);
-            $model->setSessionid(NULL);
+            $model->setSessionid(null);
             $model->save();
             return Mage::getUrl('payture/payment/paynow/', array('_secure' => true, 'order' => $key));
         } else {
@@ -128,8 +128,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             'order' => $order,
             'comment' => $comment,
             'billing' => $order->getBillingAddress()
-            )
-        );
+            ));
         $mailer->send();
     }
 

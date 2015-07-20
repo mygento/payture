@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  *
  * @category Mygento
  * @package Mygento_Payture
@@ -14,7 +14,7 @@ class Mygento_Payture_Model_Cron
     {
         Mage::helper('payture')->AddLog('Start of cron run');
         $collection = Mage::getModel('payture/keys')->getCollection();
-        $collection->addFieldToFilter('sessionid', array('neq' => NULL));
+        $collection->addFieldToFilter('sessionid', array('neq' => null));
         foreach ($collection as $_ticket) {
             Mage::helper('payture')->checkTicket($_ticket);
         }

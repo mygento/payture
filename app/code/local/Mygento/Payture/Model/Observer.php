@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 
+ *
  *
  * @category Mygento
  * @package Mygento_Payture
