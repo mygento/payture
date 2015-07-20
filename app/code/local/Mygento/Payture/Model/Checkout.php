@@ -24,6 +24,13 @@ class Mygento_Payture_Model_Checkout extends Mage_Payment_Model_Method_Abstract
         return Mage::getUrl('payture/payment/process', array('_secure' => true));
     }
 
+    /**
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     *
+     * @SuppressWarnings("unused")
+     */
     public function initialize($action, $stateObject)
     {
         if ($status = $this->getConfigData('order_status')) {

@@ -26,9 +26,9 @@ class Mygento_Payture_Adminhtml_IndexController extends Mage_Adminhtml_Controlle
                 'Password' => Mage::helper('payture')->getPassword(),
             );
             $url = Mage::helper('payture')->getHost() . 'Charge?' . http_build_query($req);
-            Mage::helper('payture')->AddLog($url);
+            Mage::helper('payture')->addLog($url);
             $xml = simplexml_load_file($url);
-            Mage::helper('payture')->AddLog($xml);
+            Mage::helper('payture')->addLog($xml);
             if ($xml["Success"] == 'True') {
                 $collection = Mage::getModel('payture/keys')->getCollection();
                 $collection->addFieldToFilter('orderid', $order->getId());
@@ -68,9 +68,9 @@ class Mygento_Payture_Adminhtml_IndexController extends Mage_Adminhtml_Controlle
                 'Amount' => round($postData['sum'] * 100, 0),
             );
             $url = Mage::helper('payture')->getHost() . $type . '?' . http_build_query($req);
-            Mage::helper('payture')->AddLog($url);
+            Mage::helper('payture')->addLog($url);
             $xml = simplexml_load_file($url);
-            Mage::helper('payture')->AddLog($xml);
+            Mage::helper('payture')->addLog($xml);
             if ($xml["Success"] == 'True') {
                 $collection = Mage::getModel('payture/keys')->getCollection();
                 $collection->addFieldToFilter('orderid', $order->getId());

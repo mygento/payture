@@ -12,12 +12,12 @@ class Mygento_Payture_Model_Cron
 
     public function fivemin()
     {
-        Mage::helper('payture')->AddLog('Start of cron run');
+        Mage::helper('payture')->addLog('Start of cron run');
         $collection = Mage::getModel('payture/keys')->getCollection();
         $collection->addFieldToFilter('sessionid', array('neq' => null));
         foreach ($collection as $_ticket) {
             Mage::helper('payture')->checkTicket($_ticket);
         }
-        Mage::helper('payture')->AddLog('End of cron run');
+        Mage::helper('payture')->addLog('End of cron run');
     }
 }

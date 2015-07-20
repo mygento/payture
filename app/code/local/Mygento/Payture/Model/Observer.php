@@ -14,7 +14,7 @@ class Mygento_Payture_Model_Observer extends Varien_Object
     {
         $order = $observer->getEvent()->getOrder();
         if ($order->getPayment()->getMethodInstance()->getCode() == 'payture') {
-            Mage::helper('payture')->sendemailbyorder($order);
+            Mage::helper('payture')->sendEmailByOrder($order);
         }
     }
 }

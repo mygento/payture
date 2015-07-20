@@ -12,7 +12,7 @@
 <?php if ($this->getOrder()): ?>
     <?php
     $state = $this->getOrder()->getState();
-    if (!$this->Ispaid() && $payture_state != 'Authorized' && $state != 'complete' && $state != 'closed' && $state != 'canceled'):
+    if (!$this->isPaid() && $payture_state != 'Authorized' && $state != 'complete' && $state != 'closed' && $state != 'canceled'):
 
         ?>
         <p><a target="_blank" href="<?php echo $this->getPaylink(); ?>">Оплатить заказ</a></p>

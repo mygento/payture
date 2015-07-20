@@ -27,7 +27,7 @@ class Mygento_Payture_Block_Info extends Mage_Payment_Block_Info
         return Mage::helper('payture')->getLink($this->getOid());
     }
 
-    public function Ispaid()
+    public function isPaid()
     {
         $order = Mage::getModel('sales/order')->load($this->getOid());
         if (!$order->hasInvoices()) {

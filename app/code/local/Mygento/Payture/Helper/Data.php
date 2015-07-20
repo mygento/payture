@@ -10,7 +10,7 @@
 class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
-    public function AddLog($text)
+    public function addLog($text)
     {
         if (Mage::getStoreConfig('payment/payture/debug')) {
             Mage::log($text, null, 'payture.log', true);
@@ -27,12 +27,12 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::helper('core')->decrypt(Mage::getStoreConfig('payment/payture/password'));
     }
 
-    public function SendEmailByOrder($order)
+    public function sendEmailByOrder($order)
     {
         try {
             $order->sendNewOrderEmail();
         } catch (Exception $e) {
-            $this->AddLog($e->getMessage());
+            $this->addLog($e->getMessage());
         }
     }
 

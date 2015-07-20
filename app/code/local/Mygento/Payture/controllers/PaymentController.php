@@ -14,7 +14,7 @@ class Mygento_Payture_PaymentController extends Mage_Core_Controller_Front_Actio
 
     public function indexAction()
     {
-        echo 'Nope. Visit <a href="http://www.mygento.ru/">Magento development</a>';
+        $this->getResponse()->setBody('Nope. Visit <a href="http://www.mygento.ru/">Magento development</a>');
     }
 
     public function processAction()
@@ -29,9 +29,9 @@ class Mygento_Payture_PaymentController extends Mage_Core_Controller_Front_Actio
             $url2go = Mage::helper('payture')->getLink($order->getId());
             //перенаправление на оплату
             $this->_redirectUrl($url2go);
-            Mage::helper('payture')->AddLog('Redirecting to immidiate payment');
+            Mage::helper('payture')->addLog('Redirecting to immidiate payment');
         } else {
-            Mage::helper('payture')->AddLog('NO Redirect');
+            Mage::helper('payture')->addLog('NO Redirect');
             $this->_redirect('checkout/onepage/success', array('_secure' => true));
         }
     }
@@ -62,7 +62,7 @@ class Mygento_Payture_PaymentController extends Mage_Core_Controller_Front_Actio
                         return;
                     }
                 } else {
-                    Mage::helper('payture')->AddLog('Order #' . $order_id . ' is already paid');
+                    Mage::helper('payture')->addLog('Order #' . $order_id . ' is already paid');
                     $session->addError(Mage::helper('payture')->__('Payment failed. Please try again later.'));
                     $this->_redirect('checkout/cart'); //отправка на корзину
                     return;

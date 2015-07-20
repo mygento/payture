@@ -27,7 +27,7 @@ class Mygento_Payture_Model_Payture
         }
     }
 
-    protected function requestAPI_GET($url, $arpost)
+    protected function requestApiGet($url, $arpost)
     {
 
         //Create a CURL GET request
@@ -37,7 +37,7 @@ class Mygento_Payture_Model_Payture
             $data.= $key . '=' . $value . ';';
         }
         $full_url = $url . "?Key=" . Mage::helper('payture')->getKey() . '&Data=' . urlencode($data);
-        Mage::helper('payture')->AddLog($full_url);
+        Mage::helper('payture')->addLog($full_url);
         curl_setopt($ch, CURLOPT_URL, $full_url);
         curl_setopt($ch, CURLOPT_POST, false);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -75,8 +75,8 @@ class Mygento_Payture_Model_Payture
             $products = substr($products, 0, strlen($products) - 2);
         }
         $request['Product'] = $products;
-        $result = $this->requestAPI_GET(Mage::helper('payture')->getHost() . 'Init', $request);
-        Mage::helper('payture')->AddLog($result);
+        $result = $this->requestApiGet(Mage::helper('payture')->getHost() . 'Init', $request);
+        Mage::helper('payture')->addLog($result);
         $xml = simplexml_load_string($result);
         if ((bool) $xml["Success"][0] == true) {
             if ($xml["SessionId"][0]) {
