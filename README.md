@@ -12,4 +12,4 @@
 * Автоматическая проверка успешности оплаты заказов
 * Cron-проверки состояний оплаты заказов
 
-[Module Page](http://www.mygento.ru/modules/payture.html)
+[Страница Модуля](http://www.mygento.ru/modules/payture.html)
