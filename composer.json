@@ -1,0 +1,41 @@
+{
+    "name": "mygento/payture",
+    "type": "magento-module",
+    "license": "Apache-2.0",
+    "homepage": "http://www.mygento.ru/modules/payture.html",
+    "description": "Payture Intergration",
+    "keywords": [
+        "magento",
+        "payment"
+    ],
+    "authors":[
+        {
+            "name":"Mygento",
+            "email": "connect@mygento.net",
+            "homepage": "http://www.mygento.net/"
+        }
+    ],
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "2.*",
+        "magento-ecg/coding-standard": "dev-master",
+        "mygento/coding-standard": "*",
+        "sebastian/phpdcd": "*",
+        "sebastian/phpcpd": "*",
+        "jakub-onderka/php-parallel-lint": "0.*",
+        "jakub-onderka/php-console-highlighter": "0.*",
+        "phpmd/phpmd" : "@stable"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://mygento.github.io/packages"
+        }
+    ],
+    "extra": {
+        "magento-root-dir": ".",
+        "with-bootstrap-patch": false
+    }
+}

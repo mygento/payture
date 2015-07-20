@@ -5,17 +5,23 @@ php:
   - 5.5
   - 5.6
 
+matrix:
+  allow_failures:
+    - php: 5.6
+    - php: hhvm
+
 before_script:
-  - pear install PHP_CodeSniffer
-  - phpenv rehash
-  - composer self-update
+  - composer self-update --no-interaction
   - composer install --no-interaction
-  - phpcs --config-set ignore_warnings_on_exit 1
+  - php vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
   - sed -i 's/curl/banan/g' vendor/magento-ecg/coding-standard/Ecg/Sniffs/Security/ForbiddenFunctionSniff.php
+  - sed -i 's/pathinfo/ananas/g' vendor/magento-ecg/coding-standard/Ecg/Sniffs/Security/ForbiddenFunctionSniff.php
+  - sed -i 's/tempnam/cocos/g' vendor/magento-ecg/coding-standard/Ecg/Sniffs/Security/ForbiddenFunctionSniff.php
 
 script:
-  - phpcs --standard=vendor/magento-ecg/coding-standard/Ecg --ignore=vendor .
   - php vendor/bin/parallel-lint --exclude vendor .
+  - php vendor/bin/phpcs --standard=vendor/magento-ecg/coding-standard/Ecg,vendor/mygento/coding-standard/Mygento-Mage1 --ignore=lib .
   - php vendor/bin/phpcpd --exclude=vendor .
   - php vendor/bin/phpdcd --exclude=vendor .
-  - php vendor/bin/phpmd . text codesize --exclude vendor
+  - php vendor/bin/phpmd . text vendor/mygento/coding-standard/Mygento-Mage1/phpmd.xml --exclude vendor,lib
+
