@@ -7,7 +7,7 @@
  * @package Mygento_Payture
  * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
  */
-class Mygento_Payture_Adminhtml_IndexController extends Mage_Adminhtml_Controller_Action
+class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_Controller_Action
 {
 
     public function indexAction()
@@ -82,5 +82,10 @@ class Mygento_Payture_Adminhtml_IndexController extends Mage_Adminhtml_Controlle
             }
         }
         return Mage::helper("adminhtml")->getUrl("adminhtml/sales_order/view", array('_secure' => true, 'order_id' => $order->getId()));
+    }
+
+    protected function _isAllowed()
+    {
+        return true;
     }
 }

@@ -62,17 +62,17 @@ class Mygento_Payture_Block_Info extends Mage_Payment_Block_Info
 
     public function getRefundlink()
     {
-        return Mage::helper("adminhtml")->getUrl("payture/adminhtml_index/refund/", array('_secure' => true, 'order' => $this->getOid()));
+        return Mage::helper("adminhtml")->getUrl("adminhtml/payture_index/refund/", array('_secure' => true, 'order' => $this->getOid()));
     }
 
     public function getUnblockTransactionlink()
     {
-        return Mage::helper("adminhtml")->getUrl("payture/adminhtml_index/cancel/", array('_secure' => true, 'order' => $this->getOid()));
+        return Mage::helper("adminhtml")->getUrl("adminhtml/payture_index/cancel/", array('_secure' => true, 'order' => $this->getOid()));
     }
 
     public function getAcceptTransactionlink()
     {
-        return Mage::helper("adminhtml")->getUrl("payture/adminhtml_index/complete/", array('_secure' => true, 'order' => $this->getOid()));
+        return Mage::helper("adminhtml")->getUrl("adminhtml/payture_index/complete/", array('_secure' => true, 'order' => $this->getOid()));
     }
 
     public function getState()
