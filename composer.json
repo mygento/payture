@@ -16,24 +16,18 @@
         }
     ],
     "require": {
-        "magento-hackathon/magento-composer-installer": "*"
+        "magento-hackathon/magento-composer-installer": "3.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "2.*",
         "magento-ecg/coding-standard": "dev-master",
-        "mygento/coding-standard": "*",
+        "mygento/coding-standard": "1.*",
         "sebastian/phpdcd": "*",
         "sebastian/phpcpd": "*",
         "jakub-onderka/php-parallel-lint": "0.*",
         "jakub-onderka/php-console-highlighter": "0.*",
         "phpmd/phpmd" : "@stable"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "http://mygento.github.io/packages"
-        }
-    ],
     "extra": {
         "magento-root-dir": ".",
         "with-bootstrap-patch": false

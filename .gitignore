@@ -3,6 +3,7 @@
 /magento.rb
 /vendor/
 /node_modules
+/composer.lock
 
 #unit testing
 /app/code/community/EcomDev/
