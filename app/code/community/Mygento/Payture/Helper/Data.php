@@ -5,7 +5,7 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
 {
@@ -128,7 +128,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             'order' => $order,
             'comment' => $comment,
             'billing' => $order->getBillingAddress()
-            ));
+        ));
         $mailer->send();
     }
 
@@ -145,8 +145,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (Mage::getStoreConfig('payment/payture/test')) {
             return 'https://sandbox.payture.com/apim/';
-        } else {
-            return 'https://secure.payture.com/apim/';
         }
+        return 'https://secure.payture.com/apim/';
     }
 }

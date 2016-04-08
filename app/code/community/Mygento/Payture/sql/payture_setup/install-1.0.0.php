@@ -4,20 +4,45 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
-$this->startSetup();
+$installer = $this;
+$installer->startSetup();
 
-$this->run("DROP TABLE IF EXISTS {$this->getTable('payture/keys')};");
+$installer->getConnection()->dropTable('payture/keys');
 
-$this->run("CREATE TABLE {$this->getTable('payture/keys')} (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `hkey` varchar(255) NOT NULL,
-  `orderid` int(11) NOT NULL,
-  `sessionid` varchar(255) DEFAULT NULL,
-  `paytype` varchar(255) NOT NULL,
-  `state` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;");
+$payture_table = $installer->getConnection()
+    ->newTable($installer->getTable('payture/keys'))
+    ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'unsigned' => true,
+        'nullable' => false,
+        'primary' => true,
+        'auto_increment' => true,
+        ), 'ID')
+    ->addColumn('hkey', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
+        'nullable' => false,
+        ), 'ID')
+    ->addColumn('orderid', Varien_Db_Ddl_Table::TYPE_INTEGER, 11, array(
+        'unsigned' => true,
+        'nullable' => false,
+        ), 'ID')
+    ->addColumn('sessionid', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
+        'nullable' => false,
+        ), 'Int Session Id')
+    ->addColumn('paytype', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
+        'nullable' => false,
+        ), 'Payment type')
+    ->addColumn('state', Varien_Db_Ddl_Table::TYPE_VARCHAR, 255, array(
+        'nullable' => false,
+        ), 'State')
+    ->addIndex($installer->getIdxName('payture/keys', array(
+        'id'
+    )), array(
+    'id'
+    ), array(
+    'type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE
+    ));
 
-$this->endSetup();
+$installer->getConnection()->createTable($payture_table);
+
+$installer->endSetup();

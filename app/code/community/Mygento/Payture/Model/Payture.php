@@ -5,7 +5,7 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_Model_Payture
 {
@@ -109,5 +109,14 @@ class Mygento_Payture_Model_Payture
                 $sess->save();
             }
         }
+    }
+
+    public function checkSign($order_id, $check_result)
+    {
+        $string = $order_id . '|' . Mage::getStoreConfig('payment/payture/frame_token');
+        if (hash('sha512', $string) == $check_result) {
+            return true;
+        }
+        return false;
     }
 }

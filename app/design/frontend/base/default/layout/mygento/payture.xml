@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <payture_api_frame>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference> 
+        <reference name="content">
+            <block type="payture/frame" name="payture_frame"/>
+        </reference>
+    </payture_api_frame>
+</layout>

@@ -19,3 +19,6 @@
 "Technical section","Техническая секция"
 "Debug","Логирование действий для отладки (debug logging)"
 "Test mode","Режим тестирования"
+"Enable iframe API","Включить API с frame"
+"Frame token","Токен для frame"
+"Iframe section","Секция iframe"
