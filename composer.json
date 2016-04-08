@@ -8,9 +8,9 @@
         "magento",
         "payment"
     ],
-    "authors":[
+    "authors": [
         {
-            "name":"Mygento",
+            "name": "Mygento",
             "email": "connect@mygento.net",
             "homepage": "http://www.mygento.net/"
         }
@@ -26,7 +26,7 @@
         "sebastian/phpcpd": "*",
         "jakub-onderka/php-parallel-lint": "0.*",
         "jakub-onderka/php-console-highlighter": "0.*",
-        "phpmd/phpmd" : "@stable"
+        "phpmd/phpmd": "@stable"
     },
     "extra": {
         "magento-root-dir": ".",

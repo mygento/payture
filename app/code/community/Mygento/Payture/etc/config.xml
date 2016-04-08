@@ -82,6 +82,13 @@
                 </payture>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <payture>
+                    <file>mygento/payture.xml</file>
+                </payture>
+            </updates>
+        </layout>
     </frontend>
     <admin>
         <routers>

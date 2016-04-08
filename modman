@@ -1,5 +1,6 @@
 app/code/community/Mygento/Payture app/code/community/Mygento/Payture
 app/design/adminhtml/default/default/template/mygento/payture app/design/adminhtml/default/default/template/mygento/payture
 app/design/frontend/base/default/template/mygento/payture app/design/frontend/base/default/template/mygento/payture
+app/design/frontend/base/default/layout/mygento/payture.xml app/design/frontend/base/default/layout/mygento/payture.xml
 app/etc/modules/Mygento_Payture.xml app/etc/modules/Mygento_Payture.xml
 app/locale/ru_RU/Mygento_Payture.csv app/locale/ru_RU/Mygento_Payture.csv

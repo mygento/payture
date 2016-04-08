@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <versions>
     <version>
+        <date>8 апреля 2016г.</date>
+        <comment>Добавление iframe API</comment>
+        <ver>1.0.5</ver>
+    </version>
+    <version>
         <date>23 марта 2015г.</date>
         <comment>Оптимизация кода</comment>
         <ver>1.0.2</ver>

@@ -37,6 +37,8 @@ class Mygento_Payture_ApiController extends Mage_Core_Controller_Front_Action
             }
             $url2go = Mage::helper('payture')->getLink($order->getId());
             Mage::register('payture_frame_link', $url2go);
+            $this->loadLayout();
+            $this->renderLayout();
         } else {
             $this->response->statusCode(500);
             return $this->response;
