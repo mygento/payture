@@ -69,7 +69,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     public function addtransaction($order)
     {
         $orders = Mage::getModel('sales/order_invoice')->getCollection()
-            ->addAttributeToFilter('order_id', array('eq' => $order->getId()));
+                ->addAttributeToFilter('order_id', array('eq' => $order->getId()));
         $orders->getSelect()->limit(1);
         if ((int) $orders->count() !== 0) {
             return $this;
@@ -87,8 +87,8 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
                 $invoice->getOrder()->setIsInProcess(true);
                 $order->addStatusHistoryComment('Automatically INVOICED by Payture_Invoicer.', false);
                 $transactionSave = Mage::getModel('core/resource_transaction')
-                    ->addObject($invoice)
-                    ->addObject($invoice->getOrder());
+                        ->addObject($invoice)
+                        ->addObject($invoice->getOrder());
                 $transactionSave->save();
                 if (Mage::getStoreConfig('payment/payture/send')) {
                     $order->sendOrderUpdateEmail($order->getStatus(), Mage::getStoreConfig('payment/payture/text'));
@@ -135,7 +135,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     public function checkTicket($_ticket)
     {
         $url = $this->getHost() . 'PayStatus?Key=' . Mage::helper('payture')->getKey() . '&OrderId=' . $_ticket->getOrderid();
-        $xml = simplexml_load_file($url);
+        $xml = $this->getData($url);
         if ($xml["Success"] == 'True') {
             Mage::getModel('payture/payture')->processStatus($xml["State"], $_ticket->getOrderid(), $_ticket->getId());
         }
@@ -147,5 +147,17 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             return 'https://sandbox.payture.com/apim/';
         }
         return 'https://secure.payture.com/apim/';
+    }
+
+    public function getData($url)
+    {
+        $ch = curl_init();
+        $timeout = 10;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
     }
 }

@@ -5,14 +5,14 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_Controller_Action
 {
 
     public function indexAction()
     {
-        echo 'Nope. Visit <a href="http://www.mygento.ru/">Magento development</a>';
+        $this->getResponse()->setBody('Nope. Visit <a href="http://www.mygento.ru/">Magento development</a>');
     }
 
     public function completeAction()
@@ -27,7 +27,7 @@ class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_C
             );
             $url = Mage::helper('payture')->getHost() . 'Charge?' . http_build_query($req);
             Mage::helper('payture')->addLog($url);
-            $xml = simplexml_load_file($url);
+            $xml = Mage::helper('payture')->getData($url);
             Mage::helper('payture')->addLog($xml);
             if ($xml["Success"] == 'True') {
                 $collection = Mage::getModel('payture/keys')->getCollection();
@@ -69,7 +69,7 @@ class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_C
             );
             $url = Mage::helper('payture')->getHost() . $type . '?' . http_build_query($req);
             Mage::helper('payture')->addLog($url);
-            $xml = simplexml_load_file($url);
+            $xml = Mage::helper('payture')->getData($url);
             Mage::helper('payture')->addLog($xml);
             if ($xml["Success"] == 'True') {
                 $collection = Mage::getModel('payture/keys')->getCollection();
