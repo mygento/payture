@@ -151,6 +151,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getData($url)
     {
+        // @codingStandardsIgnoreStart
         $ch = curl_init();
         $timeout = 10;
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -158,6 +159,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         $data = curl_exec($ch);
         curl_close($ch);
+        // @codingStandardsIgnoreEnd
         return $data;
     }
 }
