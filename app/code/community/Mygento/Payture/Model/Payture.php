@@ -31,6 +31,7 @@ class Mygento_Payture_Model_Payture
     {
 
         //Create a CURL GET request
+        // @codingStandardsIgnoreStart
         $ch = curl_init();
         $data = '';
         foreach ($arpost as $key => $value) {
@@ -47,7 +48,7 @@ class Mygento_Payture_Model_Payture
 
         $result = curl_exec($ch);
         curl_close($ch);
-
+         // @codingStandardsIgnoreEnd   
         return $result;
     }
 
