@@ -5,7 +5,7 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_Block_Info extends Mage_Payment_Block_Info
 {
@@ -32,9 +32,8 @@ class Mygento_Payture_Block_Info extends Mage_Payment_Block_Info
         $order = Mage::getModel('sales/order')->load($this->getOid());
         if (!$order->hasInvoices()) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     protected function _construct()
@@ -81,10 +80,9 @@ class Mygento_Payture_Block_Info extends Mage_Payment_Block_Info
         $collection->addFieldToFilter('orderid', $this->getOid());
         if (count($collection) == 0) {
             return false;
-        } else {
-            $item = $collection->getFirstItem();
-            return $item->getState();
         }
+        $item = $collection->getFirstItem();
+        return $item->getState();
     }
 
     public function getPaytureName()

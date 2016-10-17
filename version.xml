@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <versions>
     <version>
+        <date>17 октября 2016г.</date>
+        <comment>Мелкие правки</comment>
+        <ver>1.0.7</ver>
+    </version>
+    <version>
         <date>27 сентября 2016г.</date>
         <comment>Правки для перехода на TLS 1.2</comment>
         <ver>1.0.6</ver>

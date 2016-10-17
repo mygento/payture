@@ -22,9 +22,8 @@ class Mygento_Payture_Model_Payture
         }
         if ($sessionid != false) {
             return Mage::helper('payture')->getHost() . 'Pay?SessionId=' . $sessionid;
-        } else {
-            return false;
         }
+        return false;
     }
 
     protected function requestApiGet($url, $arpost)
@@ -48,7 +47,7 @@ class Mygento_Payture_Model_Payture
 
         $result = curl_exec($ch);
         curl_close($ch);
-         // @codingStandardsIgnoreEnd   
+        // @codingStandardsIgnoreEnd   
         return $result;
     }
 
@@ -99,16 +98,14 @@ class Mygento_Payture_Model_Payture
     {
         $order = Mage::getModel('sales/order')->load($order_id);
         if ($order->getId()) {
+            $sess = Mage::getModel('payture/keys')->load($key_id);
             if ($status == 'Charged') {
                 Mage::helper('payture')->addTransaction($order);
-                $sess = Mage::getModel('payture/keys')->load($key_id);
                 $sess->setState('Complete');
-                $sess->save();
             } else {
-                $sess = Mage::getModel('payture/keys')->load($key_id);
                 $sess->setState($status);
-                $sess->save();
             }
+            $sess->save();
         }
     }
 

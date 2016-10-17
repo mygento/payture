@@ -60,10 +60,9 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $collection->addFieldToFilter('hkey', $link);
         if (count($collection) == 0) {
             return false;
-        } else {
-            $item = $collection->getFirstItem();
-            return $item;
         }
+        $item = $collection->getFirstItem();
+        return $item;
     }
 
     public function addtransaction($order)

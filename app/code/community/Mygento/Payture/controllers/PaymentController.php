@@ -29,7 +29,7 @@ class Mygento_Payture_PaymentController extends Mage_Core_Controller_Front_Actio
             $url2go = Mage::helper('payture')->getLink($order->getId());
             //перенаправление на оплату
             $this->_redirectUrl($url2go);
-            Mage::helper('payture')->addLog('Redirecting to immidiate payment');
+            Mage::helper('payture')->addLog('Redirecting to immediate payment');
         } else {
             Mage::helper('payture')->addLog('NO Redirect');
             $this->_redirect('checkout/onepage/success', array('_secure' => true));
