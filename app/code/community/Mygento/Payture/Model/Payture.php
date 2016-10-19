@@ -84,6 +84,7 @@ class Mygento_Payture_Model_Payture
                 $item->setSessionid($xml["SessionId"][0]);
                 $item->setPaytype($paytype);
                 $item->setState('New');
+                $item->setDate(Mage::getModel('core/date')->date('Y-m-d H:i:s'));
                 $item->save();
                 return $xml["SessionId"][0];
             }

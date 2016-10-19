@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <versions>
     <version>
+        <date>20 октября 2016г.</date>
+        <comment>Добавлены новые условия по проверке сессий</comment>
+        <ver>1.1.0</ver>
+    </version>
+    <version>
         <date>17 октября 2016г.</date>
         <comment>Мелкие правки</comment>
         <ver>1.0.7</ver>

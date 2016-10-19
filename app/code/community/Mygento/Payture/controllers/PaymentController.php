@@ -89,5 +89,6 @@ class Mygento_Payture_PaymentController extends Mage_Core_Controller_Front_Actio
         $session = Mage::getSingleton('checkout/session');
         $session->addSuccess(Mage::helper('payture')->__('You order will be checked soon.'));
         $this->_redirect('checkout/onepage/success', array('_secure' => true));
+        return;
     }
 }

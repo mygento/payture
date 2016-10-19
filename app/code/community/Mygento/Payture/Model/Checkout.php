@@ -5,7 +5,7 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_Model_Checkout extends Mage_Payment_Model_Method_Abstract
 {
@@ -45,15 +45,10 @@ class Mygento_Payture_Model_Checkout extends Mage_Payment_Model_Method_Abstract
     protected function _getAssignedState($status)
     {
         $item = Mage::getResourceModel('sales/order_status_collection')
-            ->joinStates()
-            ->addFieldToFilter('main_table.status', $status)
-            ->getFirstItem();
+                ->joinStates()
+                ->addFieldToFilter('main_table.status', $status)
+                ->getFirstItem();
         return $item->getState();
-    }
-
-    protected function _registerPaymentCapture()
-    {
-        //Mage::log('Capture');
     }
 
     public function getMethodTitle()

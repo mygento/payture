@@ -21,4 +21,3 @@ script:
   - php vendor/bin/phpcpd --exclude=vendor .
   - php vendor/bin/phpdcd --exclude=vendor .
   - php vendor/bin/phpmd . text vendor/mygento/coding-standard/Mygento-Mage1/phpmd.xml --exclude vendor,lib
-

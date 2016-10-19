@@ -86,6 +86,6 @@ class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_C
 
     protected function _isAllowed()
     {
-        return true;
+        return Mage::getSingleton('admin/session')->isAllowed('mygento/payture');
     }
 }

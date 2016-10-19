@@ -46,6 +46,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             $model->setHkey($key);
             $model->setOrderid($order_id);
             $model->setSessionid(null);
+            $model->setDate(null);
             $model->save();
             return Mage::getUrl('payture/payment/paynow/', array('_secure' => true, 'order' => $key));
         } else {

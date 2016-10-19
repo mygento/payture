@@ -22,3 +22,4 @@
 "Enable iframe API","Включить API с frame"
 "Frame token","Токен для frame"
 "Iframe section","Секция iframe"
+"Redirect to payment after submitting order","Перенаправлять клиента на оплату сразу после создания заказа"
