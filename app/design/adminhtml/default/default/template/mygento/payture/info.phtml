@@ -6,7 +6,6 @@
  * @package Mygento_Payture
  * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
  */
-
 ?>
 <strong><?php echo $this->getPaytureName(); ?></strong>
 <br/><br/>
@@ -82,7 +81,6 @@
 <?php
 $state = $this->getOrder()->getState();
 if (!$this->isPaid() && $payture_state != 'Authorized' && $state != 'complete' && $state != 'closed' && $state != 'canceled'):
-
     ?>
     <p><a target="_blank" href="<?php echo $this->getPaylink(); ?>">Оплатить заказ</a></p>
 <?php endif; ?>

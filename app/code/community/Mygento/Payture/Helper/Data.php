@@ -135,8 +135,8 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     public function checkTicket($_ticket)
     {
         $url = $this->getHost() . 'PayStatus?Key=' . Mage::helper('payture')->getKey() . '&OrderId=' . $_ticket->getOrderid();
-        $xml = $this->getData($url);
-        if ($xml["Success"] == 'True') {
+        $xml = simplexml_load_string($this->getData($url));
+        if ($xml['Success'] == 'True') {
             Mage::getModel('payture/payture')->processStatus($xml["State"], $_ticket->getOrderid(), $_ticket->getId());
         }
     }
@@ -160,6 +160,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $data = curl_exec($ch);
         curl_close($ch);
         // @codingStandardsIgnoreEnd
+        $this->addLog($data);
         return $data;
     }
 }

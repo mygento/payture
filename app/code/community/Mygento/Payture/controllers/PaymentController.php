@@ -5,12 +5,10 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
 class Mygento_Payture_PaymentController extends Mage_Core_Controller_Front_Action
 {
-
-    protected $_order;
 
     public function indexAction()
     {
@@ -82,8 +80,10 @@ class Mygento_Payture_PaymentController extends Mage_Core_Controller_Front_Actio
     public function resultAction()
     {
         $enc_key = $this->getRequest()->getParam('order');
+        Mage::helper('payture')->addLog('Got key ' . $enc_key);
         $ticket = Mage::helper('payture')->decodeid($enc_key);
         if ($ticket) {
+            Mage::helper('payture')->addLog('Check ticket ' . $ticket);
             Mage::helper('payture')->checkTicket($ticket);
         }
         $session = Mage::getSingleton('checkout/session');

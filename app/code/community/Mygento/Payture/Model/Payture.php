@@ -34,7 +34,7 @@ class Mygento_Payture_Model_Payture
         $ch = curl_init();
         $data = '';
         foreach ($arpost as $key => $value) {
-            $data.= $key . '=' . $value . ';';
+            $data .= $key . '=' . $value . ';';
         }
         $full_url = $url . "?Key=" . Mage::helper('payture')->getKey() . '&Data=' . urlencode($data);
         Mage::helper('payture')->addLog($full_url);
@@ -67,7 +67,7 @@ class Mygento_Payture_Model_Payture
         $items = $order->getItemsCollection();
         foreach ($items as $item) {
             if ($item->getOriginalPrice() > 0) {
-                $products.=$item->getName() . ', ';
+                $products .= $item->getName() . ', ';
             }
         }
 
