@@ -4,7 +4,7 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
  */
 ?>
 <strong><?php echo $this->getPaytureName(); ?></strong>
@@ -50,7 +50,7 @@
     </script>
     <br/><br/> 
 <?php endif; ?>
-<?php if ($payture_state == 'Authorized'): ?>
+<?php if (!$this->getOrder()->hasCreditmemos() && $payture_state == 'Authorized'): ?>
     <!-- unblock -->
     <div>
         <input id="unblocksum" value="<?php echo $this->getTotalSum(); ?>">&nbsp;RUB&nbsp;
