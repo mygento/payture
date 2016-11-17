@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <versions>
-     <version>
+    <version>
+        <date>17 ноября 2016г.</date>
+        <comment>Правки совместимости</comment>
+        <ver>1.1.3</ver>
+    </version>
+    <version>
         <date>9 ноября 2016г.</date>
         <comment>Правки по пожелания сервиса</comment>
         <ver>1.1.2</ver>

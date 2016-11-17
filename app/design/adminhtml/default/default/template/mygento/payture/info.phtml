@@ -10,7 +10,7 @@
 <strong><?php echo $this->getPaytureName(); ?></strong>
 <br/><br/>
 <?php $payture_state = $this->getState(); ?>
-<?php if ($payture_state == 'Authorized' && !Mage::registry('current_order')->hasInvoices()) : ?>
+<?php if ($payture_state == 'Authorized' && !$this->getOrder()->hasInvoices()) : ?>
     <!-- complete -->
     <div class="f-left">
         <button class="scalable task" type="button"  onclick="setLocation('<?php echo $this->getAcceptTransactionlink(); ?>')" title="<?php echo $this->__('Complete payment'); ?>">
