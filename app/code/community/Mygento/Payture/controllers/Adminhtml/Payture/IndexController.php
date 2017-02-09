@@ -56,10 +56,9 @@ class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_C
         //Check the ticket
         $collection = Mage::getModel('payture/keys')->getCollection();
         $collection->addFieldToFilter('orderid', $order_inc_id);
-        $item = $collection->getFirstItem();
-        $ticket = Mage::getModel('payture/keys')->load($item->getId());
+        $ticket = $collection->getFirstItem();
 
-        if ($ticket->getId()) {
+        if ($ticket && $ticket->getId()) {
             Mage::helper('payture')->checkTicket($ticket);
         }
 
