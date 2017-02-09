@@ -6,13 +6,14 @@
     "description": "Payture Intergration",
     "keywords": [
         "magento",
-        "payment"
+        "payment",
+        "payture"
     ],
     "authors": [
         {
             "name": "Mygento",
             "email": "connect@mygento.net",
-            "homepage": "http://www.mygento.net/"
+            "homepage": "https://www.mygento.ru/"
         }
     ],
     "require": {
