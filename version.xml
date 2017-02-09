@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <versions>
     <version>
+        <date>9 февраля 2017г.</date>
+        <comment>Добавлена проверка тикетов после одобрения/отмены платежа менеджером магазина</comment>
+        <ver>1.1.6</ver>
+    </version>
+    <version>
         <date>20 января 2017г.</date>
         <comment>Добавлена проверка authorized тикетов</comment>
         <ver>1.1.5</ver>
