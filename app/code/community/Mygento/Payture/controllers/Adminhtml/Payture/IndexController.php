@@ -39,9 +39,7 @@ class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_C
                 Mage::helper('payture')->addTransaction($order);
 
                 //Check the ticket
-                $link = Mage::helper('payture')->getLink($order->getId());
-                $ticket = Mage::helper('payture')->decodeid($link);
-                Mage::helper('payture')->checkTicket($ticket);
+                Mage::helper('payture')->checkTicket($item);
             }
         }
         $url = Mage::helper("adminhtml")->getUrl("adminhtml/sales_order/view", array('_secure' => true, 'order_id' => $order->getId()));
@@ -56,9 +54,13 @@ class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_C
         $redirectLink = $this->processOrder('Unblock', $postData, $order_inc_id);
 
         //Check the ticket
-        $link = Mage::helper('payture')->getLink($order_inc_id);
-        $ticket = Mage::helper('payture')->decodeid($link);
-        Mage::helper('payture')->checkTicket($ticket);
+        $collection = Mage::getModel('payture/keys')->getCollection();
+        $collection->addFieldToFilter('orderid', $order_inc_id);
+        $ticket = $collection->getFirstItem();
+
+        if ($ticket->getId()) {
+            Mage::helper('payture')->checkTicket($ticket);
+        }
 
         Mage::app()->getResponse()->setRedirect($redirectLink);
     }
