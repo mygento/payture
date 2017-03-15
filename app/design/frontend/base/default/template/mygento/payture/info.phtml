@@ -4,10 +4,11 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2015 NKS LLC. (http://www.mygento.ru)
+ * @copyright 2017 NKS LLC. (https://www.mygento.ru)
  */
 ?>
 <strong><?php echo $this->getPaytureName(); ?></strong>
+<?php $payture_state = $this->getState(); ?>
 <?php if ($this->getOrder()): ?>
     <?php
     $state = $this->getOrder()->getState();
