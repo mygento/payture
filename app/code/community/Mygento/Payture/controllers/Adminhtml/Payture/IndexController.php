@@ -81,7 +81,9 @@ class Mygento_Payture_Adminhtml_Payture_IndexController extends Mage_Adminhtml_C
                 'OrderId' => $order->getId(),
                 'Password' => Mage::helper('payture')->getPassword(),
                 'Amount' => round($postData['sum'] * 100, 0),
+                'ChequePositions' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
             );
+            Mage::helper('payture')->addLog('ChequePositions ' . $type . ' base64_decode_json: ' . base64_decode($req['ChequePositions']));
             $url = Mage::helper('payture')->getHost() . $type . '?' . http_build_query($req);
             Mage::helper('payture')->addLog($url);
             $xml = Mage::helper('payture')->getData($url);

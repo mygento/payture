@@ -139,6 +139,9 @@
                 <message>Оплата в процессинговом центре Payture</message>
                 <title>Оплатить банковской картой</title>
                 <test>1</test>
+                <taxenable>1</taxenable>
+                <tax_all>1</tax_all>
+                <default_shipping_name>1</default_shipping_name>
             </payture>
         </payment>
     </default>

@@ -9,7 +9,6 @@
  */
 class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
     public function addLog($text)
     {
         if (Mage::getStoreConfig('payment/payture/debug')) {
@@ -42,7 +41,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $collection->addFieldToFilter('orderid', $order_id);
         if (count($collection) == 0) {
             $model = Mage::getModel('payture/keys');
-            $key = strtr(base64_encode(microtime() . $order_id . rand(1, 1048576)), '+/=', '-_,');
+            $key   = strtr(base64_encode(microtime() . $order_id . rand(1, 1048576)), '+/=', '-_,');
             $model->setHkey($key);
             $model->setOrderid($order_id);
             $model->setSessionid(null);
@@ -51,7 +50,8 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             return Mage::getUrl('payture/payment/paynow/', array('_secure' => true, 'order' => $key));
         } else {
             $item = $collection->getFirstItem();
-            return Mage::getUrl('payture/payment/paynow/', array('_secure' => true, 'order' => $item->getHkey()));
+            return Mage::getUrl('payture/payment/paynow/',
+                    array('_secure' => true, 'order' => $item->getHkey()));
         }
     }
 
@@ -69,7 +69,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     public function addtransaction($order)
     {
         $orders = Mage::getModel('sales/order_invoice')->getCollection()
-                ->addAttributeToFilter('order_id', array('eq' => $order->getId()));
+            ->addAttributeToFilter('order_id', array('eq' => $order->getId()));
         $orders->getSelect()->limit(1);
         if ((int) $orders->count() !== 0) {
             return $this;
@@ -77,30 +77,35 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         if ($order->getState() == Mage_Sales_Model_Order::STATE_NEW) {
             try {
                 if (!$order->canInvoice()) {
-                    $order->addStatusHistoryComment('Payture_Invoicer: Order cannot be invoiced.', false);
+                    $order->addStatusHistoryComment('Payture_Invoicer: Order cannot be invoiced.',
+                        false);
                     $order->save();
                 }
-                $invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
+                $invoice         = Mage::getModel('sales/service_order', $order)->prepareInvoice();
                 $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
                 $invoice->register();
                 $invoice->getOrder()->setCustomerNoteNotify(false);
                 $invoice->getOrder()->setIsInProcess(true);
                 $order->addStatusHistoryComment('Automatically INVOICED by Payture_Invoicer.', false);
                 $transactionSave = Mage::getModel('core/resource_transaction')
-                        ->addObject($invoice)
-                        ->addObject($invoice->getOrder());
+                    ->addObject($invoice)
+                    ->addObject($invoice->getOrder());
                 $transactionSave->save();
                 if (Mage::getStoreConfig('payment/payture/send')) {
-                    $order->sendOrderUpdateEmail($order->getStatus(), Mage::getStoreConfig('payment/payture/text'));
+                    $order->sendOrderUpdateEmail($order->getStatus(),
+                        Mage::getStoreConfig('payment/payture/text'));
                 }
                 if (Mage::getStoreConfig('payment/payture/sendinvoice')) {
                     $invoice->sendEmail();
                 }
                 if (Mage::getStoreConfig('payment/payture/sendadmin') != '') {
-                    $this->sendCustomComment($order, Mage::getStoreConfig('payment/payture/sendadmin'), Mage::getStoreConfig('payment/payture/text'));
+                    $this->sendCustomComment($order,
+                        Mage::getStoreConfig('payment/payture/sendadmin'),
+                        Mage::getStoreConfig('payment/payture/text'));
                 }
             } catch (Exception $e) {
-                $order->addStatusHistoryComment('Payture_Invoicer: Exception occurred during automaticall transaction action. Exception message: ' . $e->getMessage(), false);
+                $order->addStatusHistoryComment('Payture_Invoicer: Exception occurred during automaticall transaction action. Exception message: ' . $e->getMessage(),
+                    false);
                 $order->save();
             }
         }
@@ -110,7 +115,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $storeId = $order->getStore()->getId();
 
-        $mailer = Mage::getModel('core/email_template_mailer');
+        $mailer    = Mage::getModel('core/email_template_mailer');
         $emailInfo = Mage::getModel('core/email_info');
         $emailInfo->addTo($toemail, Mage::getStoreConfig('trans_email/ident_sales/name'));
 
@@ -125,7 +130,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
-            'order' => $order,
+            'order'   => $order,
             'comment' => $comment,
             'billing' => $order->getBillingAddress()
         ));
@@ -137,7 +142,8 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $url = $this->getHost() . 'PayStatus?Key=' . Mage::helper('payture')->getKey() . '&OrderId=' . $_ticket->getOrderid();
         $xml = simplexml_load_string($this->getData($url));
         if ($xml['Success'] == 'True') {
-            Mage::getModel('payture/payture')->processStatus($xml["State"], $_ticket->getOrderid(), $_ticket->getId());
+            Mage::getModel('payture/payture')->processStatus($xml["State"], $_ticket->getOrderid(),
+                $_ticket->getId());
         }
     }
 
@@ -152,15 +158,62 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     public function getData($url)
     {
         // @codingStandardsIgnoreStart
-        $ch = curl_init();
+        $ch      = curl_init();
         $timeout = 10;
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $data = curl_exec($ch);
+        $data    = curl_exec($ch);
         curl_close($ch);
         // @codingStandardsIgnoreEnd
         $this->addLog($data);
         return $data;
     }
+    
+    /**
+     *
+     * @param type string
+     * @return mixed
+     */
+    public function getConfig($param)
+    {
+        return Mage::getStoreConfig('payment/payture/' . $param);
+    }
+
+    /**
+     *
+     * @param $entity Mage_Sales_Model_Order | Mage_Sales_Model_Order_Invoice | Mage_Sales_Model_Order_Creditmemo
+     * @return type
+     */
+    public function getOrderItemsJson($entity)
+    {
+        $shippingTax   = Mage::getStoreConfig('payment/payture/shipping_tax');
+        $taxValue      = Mage::getStoreConfig('payment/payture/tax_options');
+        $attributeCode = '';
+        
+        if (!Mage::getStoreConfig('payment/payture/tax_all')) {
+            $attributeCode = Mage::getStoreConfig('payment/payture/product_tax_attr');
+        }
+
+        if (!Mage::getStoreConfig('payment/payture/default_shipping_name')) {
+            $entity->setShippingDescription(Mage::getStoreConfig('payment/payture/custom_shipping_name'));
+        }
+
+        $data   = Mage::helper('payture/discount')->getRecalculated($entity, $taxValue,
+            $attributeCode, $shippingTax);
+        $result = [];
+        foreach ($data['items'] as $item) {
+            $result['Positions'][] = [
+                'Quantity' => $item['quantity'],
+                'Price'    => $item['price'],
+                'Tax'      => $item['tax'],
+                'Text'     => $item['name'],
+            ];
+        }
+        
+        $result['CustomerContact'] = $entity->getCustomerEmail();
+
+        return Mage::helper('core')->jsonEncode($result);
+    }
+
 }

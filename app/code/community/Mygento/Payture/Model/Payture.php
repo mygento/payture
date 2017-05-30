@@ -9,12 +9,11 @@
  */
 class Mygento_Payture_Model_Payture
 {
-
     public function processOrder($order, $enc_key)
     {
         $collection = Mage::getModel('payture/keys')->getCollection();
         $collection->addFieldToFilter('orderid', $order->getId());
-        $item = $collection->getFirstItem();
+        $item       = $collection->getFirstItem();
         if ($item->getSessionid() == null) {
             $sessionid = $this->initSession($order, $enc_key, $item->getId());
         } else {
@@ -28,10 +27,9 @@ class Mygento_Payture_Model_Payture
 
     protected function requestApiGet($url, $arpost)
     {
-
         //Create a CURL GET request
         // @codingStandardsIgnoreStart
-        $ch = curl_init();
+        $ch   = curl_init();
         $data = '';
         foreach ($arpost as $key => $value) {
             $data .= $key . '=' . $value . ';';
@@ -53,18 +51,23 @@ class Mygento_Payture_Model_Payture
 
     private function initSession($order, $enc_key, $itemid)
     {
-        $paytype = Mage::getStoreConfig('payment/payture/paytype');
-        $request = array(
-            'SessionType' => $paytype,
-            'OrderId' => $order->getId(),
-            'Amount' => $order->getGrandTotal() * 100,
-            'Total' => $order->getGrandTotal(),
-            'IP' => $order->getRemoteIp(),
-            'Url' => Mage::getUrl('payture/payment/result/', array('_secure' => true, 'order' => $enc_key)),
+        $paytype  = Mage::getStoreConfig('payment/payture/paytype');
+        $request  = array(
+            'SessionType'     => $paytype,
+            'OrderId'         => $order->getId(),
+            'Amount'          => $order->getGrandTotal() * 100,
+            'Total'           => $order->getGrandTotal(),
+            'IP'              => $order->getRemoteIp(),
+            'Url'             => Mage::getUrl('payture/payment/result/',
+                array('_secure' => true, 'order' => $enc_key)),
+            'ChequePositions' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
         );
+        
+        Mage::helper('payture')->addLog('ChequePositions base64_decode_json: ' . base64_decode($request['ChequePositions']));
+        
         //add product names
         $products = '';
-        $items = $order->getItemsCollection();
+        $items    = $order->getItemsCollection();
         foreach ($items as $item) {
             if ($item->getOriginalPrice() > 0) {
                 $products .= $item->getName() . ', ';
@@ -74,10 +77,13 @@ class Mygento_Payture_Model_Payture
         if (substr($products, strlen($products) - 2, 2) == ', ') {
             $products = substr($products, 0, strlen($products) - 2);
         }
+
         $request['Product'] = $products;
+
         $result = $this->requestApiGet(Mage::helper('payture')->getHost() . 'Init', $request);
         Mage::helper('payture')->addLog($result);
-        $xml = simplexml_load_string($result);
+        $xml    = simplexml_load_string($result);
+
         if ((bool) $xml["Success"][0] == true) {
             if ($xml["SessionId"][0]) {
                 $item = Mage::getModel('payture/keys')->load($itemid);
@@ -118,4 +124,5 @@ class Mygento_Payture_Model_Payture
         }
         return false;
     }
+
 }
