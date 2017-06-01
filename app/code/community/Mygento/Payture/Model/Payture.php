@@ -58,12 +58,17 @@ class Mygento_Payture_Model_Payture
             'Amount'          => $order->getGrandTotal() * 100,
             'Total'           => $order->getGrandTotal(),
             'IP'              => $order->getRemoteIp(),
-            'Url'             => Mage::getUrl('payture/payment/result/',
-                array('_secure' => true, 'order' => $enc_key)),
+            'Url'             => Mage::getUrl(
+                'payture/payment/result/',
+                array('_secure' => true, 'order' => $enc_key)
+            ),
+            // @codingStandardsIgnoreStart
             'ChequePositions' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
+            // @codingStandardsIgnoreEnd
         );
-        
+        // @codingStandardsIgnoreStart
         Mage::helper('payture')->addLog('ChequePositions base64_decode_json: ' . base64_decode($request['ChequePositions']));
+        // @codingStandardsIgnoreEnd
         
         //add product names
         $products = '';
@@ -124,5 +129,4 @@ class Mygento_Payture_Model_Payture
         }
         return false;
     }
-
 }

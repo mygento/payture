@@ -50,8 +50,10 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             return Mage::getUrl('payture/payment/paynow/', array('_secure' => true, 'order' => $key));
         } else {
             $item = $collection->getFirstItem();
-            return Mage::getUrl('payture/payment/paynow/',
-                    array('_secure' => true, 'order' => $item->getHkey()));
+            return Mage::getUrl(
+                'payture/payment/paynow/',
+                array('_secure' => true, 'order' => $item->getHkey())
+            );
         }
     }
 
@@ -77,8 +79,10 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         if ($order->getState() == Mage_Sales_Model_Order::STATE_NEW) {
             try {
                 if (!$order->canInvoice()) {
-                    $order->addStatusHistoryComment('Payture_Invoicer: Order cannot be invoiced.',
-                        false);
+                    $order->addStatusHistoryComment(
+                        'Payture_Invoicer: Order cannot be invoiced.',
+                        false
+                    );
                     $order->save();
                 }
                 $invoice         = Mage::getModel('sales/service_order', $order)->prepareInvoice();
@@ -92,20 +96,26 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
                     ->addObject($invoice->getOrder());
                 $transactionSave->save();
                 if (Mage::getStoreConfig('payment/payture/send')) {
-                    $order->sendOrderUpdateEmail($order->getStatus(),
-                        Mage::getStoreConfig('payment/payture/text'));
+                    $order->sendOrderUpdateEmail(
+                        $order->getStatus(),
+                        Mage::getStoreConfig('payment/payture/text')
+                    );
                 }
                 if (Mage::getStoreConfig('payment/payture/sendinvoice')) {
                     $invoice->sendEmail();
                 }
                 if (Mage::getStoreConfig('payment/payture/sendadmin') != '') {
-                    $this->sendCustomComment($order,
+                    $this->sendCustomComment(
+                        $order,
                         Mage::getStoreConfig('payment/payture/sendadmin'),
-                        Mage::getStoreConfig('payment/payture/text'));
+                        Mage::getStoreConfig('payment/payture/text')
+                    );
                 }
             } catch (Exception $e) {
-                $order->addStatusHistoryComment('Payture_Invoicer: Exception occurred during automaticall transaction action. Exception message: ' . $e->getMessage(),
-                    false);
+                $order->addStatusHistoryComment(
+                    'Payture_Invoicer: Exception occurred during automaticall transaction action. Exception message: ' . $e->getMessage(),
+                    false
+                );
                 $order->save();
             }
         }
@@ -142,8 +152,11 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $url = $this->getHost() . 'PayStatus?Key=' . Mage::helper('payture')->getKey() . '&OrderId=' . $_ticket->getOrderid();
         $xml = simplexml_load_string($this->getData($url));
         if ($xml['Success'] == 'True') {
-            Mage::getModel('payture/payture')->processStatus($xml["State"], $_ticket->getOrderid(),
-                $_ticket->getId());
+            Mage::getModel('payture/payture')->processStatus(
+                $xml["State"],
+                $_ticket->getOrderid(),
+                $_ticket->getId()
+            );
         }
     }
 
@@ -199,8 +212,12 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
             $entity->setShippingDescription(Mage::getStoreConfig('payment/payture/custom_shipping_name'));
         }
 
-        $data   = Mage::helper('payture/discount')->getRecalculated($entity, $taxValue,
-            $attributeCode, $shippingTax);
+        $data   = Mage::helper('payture/discount')->getRecalculated(
+            $entity,
+            $taxValue,
+            $attributeCode,
+            $shippingTax
+        );
         $result = [];
         foreach ($data['items'] as $item) {
             $result['Positions'][] = [
@@ -215,5 +232,4 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
 
         return Mage::helper('core')->jsonEncode($result);
     }
-
 }
