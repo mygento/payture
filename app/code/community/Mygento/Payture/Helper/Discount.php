@@ -10,7 +10,7 @@
 class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
 {
 
-    protected $_code = 'kkm';
+    protected $_code = 'payture';
 
     /** Returns item's data as array with properly calculated discount
      * @param $entity Mage_Sales_Model_Order | Mage_Sales_Model_Order_Invoice | Mage_Sales_Model_Order_Creditmemo
