@@ -9,6 +9,7 @@
  */
 class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
 {
+    const VERSION = '1.0.3';
 
     protected $_code = 'payture';
 
@@ -20,14 +21,8 @@ class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
      * @param string $shippingTaxValue
      * @return array|mixed
      */
-    public function getItemWithDiscount(
-        $entity,
-        $itemSku,
-        $taxValue = '',
-        $taxAttributeCode = '',
-        $shippingTaxValue = ''
-    ) {
-    
+    public function getItemWithDiscount($entity, $itemSku, $taxValue = '', $taxAttributeCode = '', $shippingTaxValue = '')
+    {
         $items = $this->getRecalculated($entity, $taxValue, $taxAttributeCode, $shippingTaxValue)['items'];
 
         return isset($items[$itemSku]) ? $items[$itemSku] : [];
@@ -40,20 +35,15 @@ class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
      * @param string $shippingTaxValue
      * @return array with calculated items and sum
      */
-    public function getRecalculated(
-        $entity,
-        $taxValue = '',
-        $taxAttributeCode = '',
-        $shippingTaxValue = ''
-    ) {
-    
+    public function getRecalculated($entity, $taxValue = '', $taxAttributeCode = '', $shippingTaxValue = '')
+    {
         $generalHelper = Mage::helper($this->_code);
         $generalHelper->addLog("== START == Recalculation of entity prices. Entity class: " . get_class($entity) . ". Entity id: {$entity->getId()}");
 
         $subTotal       = $entity->getData('subtotal');
         $shippingAmount = $entity->getData('shipping_amount');
         $grandTotal     = $entity->getData('grand_total');
-        $grandDiscount  = $grandTotal - $subTotal - $shippingAmount;
+        $grandDiscount  = $grandTotal-$subTotal-$shippingAmount;
 
         $percentageSum = 0;
 
@@ -65,29 +55,29 @@ class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
                 continue;
             }
 
-            $taxValue = $this->addTaxValue($taxAttributeCode, $entity, $item);
+            $taxValue = $taxAttributeCode ? $this->addTaxValue($taxAttributeCode, $entity, $item) : $taxValue;
 
             $price    = $item->getData('price');
             $qty      = $item->getQty() ?: $item->getQtyOrdered();
             $rowTotal = $item->getData('row_total');
 
             //Calculate Percentage. The heart of logic.
-            $rowPercentage = $rowTotal / $subTotal;
+            $rowPercentage =  $rowTotal / $subTotal;
             $percentageSum += $rowPercentage;
 
-            $discountPerUnit   = $rowPercentage * $grandDiscount / $qty;
+            $discountPerUnit = $rowPercentage * $grandDiscount / $qty;
             $priceWithDiscount = $this->slyFloor($price + $discountPerUnit);
 
             $entityItem = $this->_buildItem($item, $priceWithDiscount, $taxValue);
 
-            $itemsFinal[$item->getSku()] = $entityItem;
-            $itemsSum                    += $entityItem['sum'];
+            $itemsFinal[$item->getId()] = $entityItem;
+            $itemsSum += $entityItem['sum'];
         }
 
         $generalHelper->addLog("Sum of all percentages: {$percentageSum}");
 
         //Calculate DIFF!
-        $itemsSumDiff = $this->slyFloor($grandTotal - $itemsSum - $shippingAmount);
+        $itemsSumDiff = round($this->slyFloor($grandTotal - $itemsSum - $shippingAmount, 3), 2);
 
         $generalHelper->addLog("Items sum: {$itemsSum}. All Discounts: {$grandDiscount} Diff value: {$itemsSumDiff}");
         if (bccomp($itemsSumDiff, 0.00, 2) < 0) {
@@ -101,14 +91,12 @@ class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
             'origGrandTotal' => floatval($grandTotal)
         ];
 
-        $shippingName = $entity->getShippingDescription() ?: ($entity->getOrder() ? $entity->getOrder()->getShippingDescription() : '');
-
         $shippingItem = [
-            'name'     => $shippingName,
-            'price'    => $entity->getShippingAmount() + $itemsSumDiff,
-            'quantity' => 1.0,
-            'sum'      => $entity->getShippingAmount() + $itemsSumDiff,
-            'tax'      => $shippingTaxValue,
+            'name'      => $this->getShippingName($entity),
+            'price'     => $entity->getShippingAmount() + $itemsSumDiff,
+            'quantity'  => 1.0,
+            'sum'       => $entity->getShippingAmount() + $itemsSumDiff,
+            'tax'       => $shippingTaxValue,
         ];
 
         $itemsFinal['shipping'] = $shippingItem;
@@ -134,11 +122,11 @@ class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
         }
 
         $entityItem = [
-            'price'    => round($price, 2),
-            'name'     => $item->getName(),
+            'price' => round($price, 2),
+            'name' => $item->getName(),
             'quantity' => round($qty, 2),
-            'sum'      => round($price * $qty, 2),
-            'tax'      => $taxValue,
+            'sum' => round($price * $qty, 2),
+            'tax' => $taxValue,
         ];
 
         $generalHelper->addLog("Item calculation details:");
@@ -148,19 +136,22 @@ class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
         return $entityItem;
     }
 
-    /*     * Validation method. It sums up all items and compares it to grandTotal.
+    public function getShippingName($entity)
+    {
+        return $entity->getShippingDescription()
+            ?: ($entity->getOrder() ? $entity->getOrder()->getShippingDescription() : '');
+    }
+
+    /**Validation method. It sums up all items and compares it to grandTotal.
      * @param array $receipt
      * @return bool True if all items price equal to grandTotal. False - if not.
      */
     protected function _checkReceipt(array $receipt)
     {
-        $sum = array_reduce(
-            $receipt['items'],
-            function ($carry, $item) {
-                $carry += $item['sum'];
-                return $carry;
-            }
-        );
+        $sum = array_reduce($receipt['items'], function ($carry, $item) {
+            $carry += $item['sum'];
+            return $carry;
+        });
 
         return bcsub($sum, $receipt['origGrandTotal'], 2) === '0.00';
     }
@@ -181,19 +172,25 @@ class Mygento_Payture_Helper_Discount extends Mage_Core_Helper_Abstract
 
         return (floor(abs($val) * $divider) / $divider) * $factor;
     }
-
+    
     protected function addTaxValue($taxAttributeCode, $entity, $item)
     {
-        if ($taxAttributeCode) {
-            $storeId = $entity->getStoreId();
-            $store   = $storeId ? Mage::app()->getStore($storeId) : Mage::app()->getStore();
-
-            return Mage::getResourceModel('catalog/product')->getAttributeRawValue(
-                $item->getProductId(),
-                $taxAttributeCode,
-                $store
-            );
+        if (!$taxAttributeCode) {
+            return '';
         }
-        return '';
+        $storeId  = $entity->getStoreId();
+        $store    = $storeId ? Mage::app()->getStore($storeId) : Mage::app()->getStore();
+
+        $taxValue = Mage::getResourceModel('catalog/product')->getAttributeRawValue(
+            $item->getProductId(),
+            $taxAttributeCode,
+            $store
+        );
+
+        $attributeModel = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', $taxAttributeCode);
+        if ($attributeModel->getData('frontend_input') == 'select') {
+            $taxValue = $attributeModel->getSource()->getOptionText($taxValue);
+        }
+        return $taxValue;
     }
 }
