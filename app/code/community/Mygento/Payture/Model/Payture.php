@@ -67,7 +67,7 @@ class Mygento_Payture_Model_Payture
             // @codingStandardsIgnoreEnd
         );
         // @codingStandardsIgnoreStart
-        Mage::helper('payture')->addLog('ChequePositions base64_decode_json: ' . base64_decode($request['ChequePositions']));
+        Mage::helper('payture')->addLog('ChequePositions base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($request['ChequePositions'])),1));
         // @codingStandardsIgnoreEnd
         
         //add product names
