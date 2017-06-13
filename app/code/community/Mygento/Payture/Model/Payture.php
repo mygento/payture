@@ -129,4 +129,43 @@ class Mygento_Payture_Model_Payture
         }
         return false;
     }
+    
+    /**
+     *
+     * @param type $type
+     * @param type $receipt
+     * @param type $order
+     * @return type
+     */
+    public function modifyOrder($type, $receipt, $order)
+    {
+        if ($order->getId()) {
+            $req = array(
+                'Key' => Mage::helper('payture')->getKey(),
+                'OrderId' => $order->getId(),
+                'Password' => Mage::helper('payture')->getPassword(),
+                'Amount' => round($receipt->getGrandTotal() * 100, 0),
+                // @codingStandardsIgnoreStart
+                'ChequePositions' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
+                // @codingStandardsIgnoreEnd
+            );
+            // @codingStandardsIgnoreStart
+            Mage::helper('payture')->addLog('ChequePositions ' . $type . ' base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($req['ChequePositions'])),1));
+            // @codingStandardsIgnoreEnd
+            $url = Mage::helper('payture')->getHost() . $type . '?' . http_build_query($req);
+            Mage::helper('payture')->addLog($url);
+            $xml = Mage::helper('payture')->getData($url);
+            Mage::helper('payture')->addLog($xml);
+            if ($xml["Success"] == 'True') {
+                $collection = Mage::getModel('payture/keys')->getCollection();
+                $collection->addFieldToFilter('orderid', $order->getId());
+                $item = $collection->getFirstItem();
+                $sess = Mage::getModel('payture/keys')->load($item->getId());
+                $sess->setState($type . 'ed');
+                $sess->save();
+                Mage::helper('payture')->addTransaction($order);
+            }
+            return $xml;
+        }
+    }
 }

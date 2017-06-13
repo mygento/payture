@@ -40,6 +40,14 @@
                     </payture_observer>
                 </observers>
             </checkout_submit_all_after>
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <payture_sales_order_creditmemo_save_after>
+                        <class>payture/observer</class>
+                        <method>cancelCheque</method>
+                    </payture_sales_order_creditmemo_save_after>
+                </observers>
+            </sales_order_creditmemo_save_after>
         </events>
         <resources>
             <payture_setup>

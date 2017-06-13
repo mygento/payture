@@ -182,7 +182,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $this->addLog($data);
         return $data;
     }
-    
+
     /**
      *
      * @param type string
@@ -203,7 +203,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
         $shippingTax   = Mage::getStoreConfig('payment/payture/shipping_tax');
         $taxValue      = Mage::getStoreConfig('payment/payture/tax_options');
         $attributeCode = '';
-        
+
         if (!Mage::getStoreConfig('payment/payture/tax_all')) {
             $attributeCode = Mage::getStoreConfig('payment/payture/product_tax_attr');
         }
@@ -227,9 +227,17 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
                 'Text'     => $item['name'],
             ];
         }
-        
+
         $result['CustomerContact'] = $entity->getCustomerEmail();
 
         return Mage::helper('core')->jsonEncode($result);
+    }
+
+    public function isPaidBy($order)
+    {
+        if (strpos($order->getPayment()->getMethod(), 'payture') !== false) {
+            return true;
+        }
+        return false;
     }
 }
