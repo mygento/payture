@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Mygento_Payture>
-            <version>1.1.6</version>
+            <version>1.1.7</version>
         </Mygento_Payture>
     </modules>
     <global>
@@ -95,7 +95,7 @@
                                 </payture>
                             </children>
                         </mygento>
-                       
+
                     </children>
                 </admin>
             </resources>
@@ -164,7 +164,7 @@
                 <run>
                     <model>payture/cron::fivemin</model>
                 </run>
-            </payture_fivemin>	
+            </payture_fivemin>
             <payture_completeorders>
                 <schedule>
                     <cron_expr>* */8 * * *</cron_expr>

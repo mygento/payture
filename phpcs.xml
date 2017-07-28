@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Mygento-Mage1MOD">
+    <rule ref="./vendor/magento-ecg/coding-standard/Ecg"/>
+    <rule ref="./vendor/mygento/coding-standard/Mygento-Mage1"/>
+</ruleset>

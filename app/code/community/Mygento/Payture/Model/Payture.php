@@ -45,7 +45,7 @@ class Mygento_Payture_Model_Payture
 
         $result = curl_exec($ch);
         curl_close($ch);
-        // @codingStandardsIgnoreEnd   
+        // @codingStandardsIgnoreEnd
         return $result;
     }
 
@@ -63,13 +63,13 @@ class Mygento_Payture_Model_Payture
                 array('_secure' => true, 'order' => $enc_key)
             ),
             // @codingStandardsIgnoreStart
-            'ChequePositions' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
+            'Cheque' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
             // @codingStandardsIgnoreEnd
         );
         // @codingStandardsIgnoreStart
-        Mage::helper('payture')->addLog('ChequePositions base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($request['ChequePositions'])),1));
+        Mage::helper('payture')->addLog('Cheque base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($request['Cheque'])),1));
         // @codingStandardsIgnoreEnd
-        
+
         //add product names
         $products = '';
         $items    = $order->getItemsCollection();
@@ -129,7 +129,7 @@ class Mygento_Payture_Model_Payture
         }
         return false;
     }
-    
+
     /**
      *
      * @param type $type
@@ -146,11 +146,11 @@ class Mygento_Payture_Model_Payture
                 'Password' => Mage::helper('payture')->getPassword(),
                 'Amount' => round($receipt->getGrandTotal() * 100, 0),
                 // @codingStandardsIgnoreStart
-                'ChequePositions' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
+                'Cheque' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
                 // @codingStandardsIgnoreEnd
             );
             // @codingStandardsIgnoreStart
-            Mage::helper('payture')->addLog('ChequePositions ' . $type . ' base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($req['ChequePositions'])),1));
+            Mage::helper('payture')->addLog('Cheque ' . $type . ' base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($req['Cheque'])),1));
             // @codingStandardsIgnoreEnd
             $url = Mage::helper('payture')->getHost() . $type . '?' . http_build_query($req);
             Mage::helper('payture')->addLog($url);
