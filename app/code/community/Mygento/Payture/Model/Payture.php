@@ -149,23 +149,8 @@ class Mygento_Payture_Model_Payture
                 'Cheque' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
                 // @codingStandardsIgnoreEnd
             );
-            // @codingStandardsIgnoreStart
-            Mage::helper('payture')->addLog('Cheque ' . $type . ' base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($req['Cheque'])),1));
-            // @codingStandardsIgnoreEnd
-            $url = Mage::helper('payture')->getHost() . $type . '?' . http_build_query($req);
-            Mage::helper('payture')->addLog($url);
-            $xml = Mage::helper('payture')->getData($url);
-            Mage::helper('payture')->addLog($xml);
-            if ($xml["Success"] == 'True') {
-                $collection = Mage::getModel('payture/keys')->getCollection();
-                $collection->addFieldToFilter('orderid', $order->getId());
-                $item = $collection->getFirstItem();
-                $sess = Mage::getModel('payture/keys')->load($item->getId());
-                $sess->setState($type . 'ed');
-                $sess->save();
-                Mage::helper('payture')->addTransaction($order);
-            }
-            return $xml;
+
+            return Mage::helper('payture')->processTransaction($type, $req, $order);
         }
     }
 }
