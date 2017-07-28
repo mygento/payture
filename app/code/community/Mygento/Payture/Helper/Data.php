@@ -246,22 +246,22 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function processTransaction($type, $req, $order)
     {
-      // @codingStandardsIgnoreStart
-      $this->addLog('Cheque ' . $type . ' base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($req['Cheque'])),1));
-      // @codingStandardsIgnoreEnd
-      $url = $this->getHost() . $type . '?' . http_build_query($req);
-      $this->addLog($url);
-      $xml = $this->getData($url);
-      $this->addLog($xml);
-      if ($xml["Success"] == 'True') {
-          $collection = Mage::getModel('payture/keys')->getCollection();
-          $collection->addFieldToFilter('orderid', $order->getId());
-          $item = $collection->getFirstItem();
-          $sess = Mage::getModel('payture/keys')->load($item->getId());
-          $sess->setState($type . 'ed');
-          $sess->save();
-          $this->addTransaction($order);
-      }
-      return $xml;
+        // @codingStandardsIgnoreStart
+        $this->addLog('Cheque ' . $type . ' base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($req['Cheque'])),1));
+        // @codingStandardsIgnoreEnd
+        $url = $this->getHost() . $type . '?' . http_build_query($req);
+        $this->addLog($url);
+        $xml = $this->getData($url);
+        $this->addLog($xml);
+        if ($xml["Success"] == 'True') {
+            $collection = Mage::getModel('payture/keys')->getCollection();
+            $collection->addFieldToFilter('orderid', $order->getId());
+            $item = $collection->getFirstItem();
+            $sess = Mage::getModel('payture/keys')->load($item->getId());
+            $sess->setState($type . 'ed');
+            $sess->save();
+            $this->addTransaction($order);
+        }
+        return $xml;
     }
 }
