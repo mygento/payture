@@ -5,7 +5,7 @@
  *
  * @category Mygento
  * @package Mygento_Payture
- * @copyright Copyright © 2016 NKS LLC. (http://www.mygento.ru)
+ * @copyright 2017 NKS LLC. (https://www.mygento.ru)
  */
 class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
 {
@@ -163,7 +163,7 @@ class Mygento_Payture_Helper_Data extends Mage_Core_Helper_Abstract
     public function getHost()
     {
         if (Mage::getStoreConfig('payment/payture/test')) {
-            return 'https://sandbox.payture.com/apim/';
+            return 'https://sandbox3.payture.com/apim/';
         }
         return 'https://secure.payture.com/apim/';
     }
