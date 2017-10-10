@@ -25,7 +25,7 @@ class Mygento_Payture_Model_Payture
         return false;
     }
 
-    protected function requestApiGet($url, $arpost)
+    protected function requestApiPost($url, $arpost)
     {
         //Create a CURL GET request
         // @codingStandardsIgnoreStart
@@ -34,10 +34,19 @@ class Mygento_Payture_Model_Payture
         foreach ($arpost as $key => $value) {
             $data .= $key . '=' . $value . ';';
         }
-        $full_url = $url . "?Key=" . Mage::helper('payture')->getKey() . '&Data=' . urlencode($data);
-        Mage::helper('payture')->addLog($full_url);
-        curl_setopt($ch, CURLOPT_URL, $full_url);
-        curl_setopt($ch, CURLOPT_POST, false);
+
+        $postFields = [
+            'Data' => $data,
+            'Key'  => Mage::helper('payture')->getKey()
+        ];
+
+        Mage::helper('payture')->addLog($url);
+        Mage::helper('payture')->addLog('Post fields:');
+        Mage::helper('payture')->addLog($postFields);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -85,7 +94,7 @@ class Mygento_Payture_Model_Payture
 
         $request['Product'] = $products;
 
-        $result = $this->requestApiGet(Mage::helper('payture')->getHost() . 'Init', $request);
+        $result = $this->requestApiPost(Mage::helper('payture')->getHost() . 'Init', $request);
         Mage::helper('payture')->addLog($result);
         $xml    = simplexml_load_string($result);
 
