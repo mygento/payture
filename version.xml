@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <versions>
     <version>
+        <date>10 октября 2017г.</date>
+        <comment>Исправлена ошибка "414 Request-URI Too Large" при попытке оплатить большой заказ.</comment>
+        <ver>1.1.8</ver>
+    </version>
+    <version>
         <date>28 июля 2017г.</date>
         <comment>Чек теперь передается в параметре Cheque и обновлена версия Helper_Discount</comment>
         <ver>1.1.7</ver>
