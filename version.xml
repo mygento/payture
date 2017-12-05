@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <versions>
     <version>
+      <date>5 декабря 2017г.</date>
+      <comment>Исправлена ошибка передачи чека при выключенной опции.</comment>
+      <ver>1.1.9</ver>
+    </version>
+    <version>
         <date>10 октября 2017г.</date>
         <comment>Исправлена ошибка "414 Request-URI Too Large" при попытке оплатить большой заказ.</comment>
         <ver>1.1.8</ver>
