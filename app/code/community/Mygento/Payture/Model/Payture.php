@@ -70,13 +70,13 @@ class Mygento_Payture_Model_Payture
             'Url'             => Mage::getUrl(
                 'payture/payment/result/',
                 array('_secure' => true, 'order' => $enc_key)
-            ),
-            // @codingStandardsIgnoreStart
-            'Cheque' => base64_encode(Mage::helper('payture')->getOrderItemsJson($order))
-            // @codingStandardsIgnoreEnd
+            )
         );
         // @codingStandardsIgnoreStart
-        Mage::helper('payture')->addLog('Cheque base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($request['Cheque'])),1));
+        if (!Mage::getStoreConfig('payment/payture/taxenable')) {
+            $request['Cheque'] = base64_encode(Mage::helper('payture')->getOrderItemsJson($order));
+            Mage::helper('payture')->addLog('Cheque base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($request['Cheque'])),1));
+        }
         // @codingStandardsIgnoreEnd
 
         //add product names
