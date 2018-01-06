@@ -1,0 +1,39 @@
+{
+    "changelog": {
+        "2.0.0": {
+            "text": "Релиз модуля",
+            "date": "13 октября 2017г."
+        }
+    },
+    "price": 0,
+    "type": "m2",
+    "supported": "CE 2.2.0+",
+    "meta_title": "Модуль эквайринга Payture для Magento 2.x",
+    "meta_description": "Модуль интеграции эквайринга Payture в Magento 2.x",
+    "description": "Payture.com для Magento 2.x",
+    "short_description": "Payture – международная процессинговая компания, предоставляющая услуги по организации онлайн-платежей.",
+    "title": "Payture",
+    "name": "Модуль оплаты Payture",
+    "url_path": "payture-for-magento-2.html",
+    "category": ["payment", "m2"],
+    "open": true,
+    "package_name": "payture",
+    "ver": "2.*",
+    "manual_link": "#",
+    "sort_order": 10,
+    "another_version_link": "payture.html",
+    "require": "PHP BCMath",
+    "logo": "img/payture.svg",
+    "git_link": "https://github.com/mygento/payture",
+    "manual_link": "https://mygento.atlassian.net/wiki/spaces/MOD/pages/18939926",
+    "show_support": false,
+    "features": [
+        "Передавать информацию о товарах для чека в рамках 54ФЗ;",
+        "Проводить одно- и двухстадийные платежи;",
+        "Работать в качестве Gateway шлюза;",
+        "Делать возвраты платежей."
+    ],
+    "images": [
+        ""
+    ]
+}
