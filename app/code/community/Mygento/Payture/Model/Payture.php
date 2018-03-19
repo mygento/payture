@@ -73,7 +73,7 @@ class Mygento_Payture_Model_Payture
             )
         );
         // @codingStandardsIgnoreStart
-        if (!Mage::getStoreConfig('payment/payture/taxenable')) {
+        if (Mage::getStoreConfig('payment/payture/taxenable')) {
             $request['Cheque'] = base64_encode(Mage::helper('payture')->getOrderItemsJson($order));
             Mage::helper('payture')->addLog('Cheque base64_json_decode: ' . print_r(Mage::helper('core')->jsonDecode(base64_decode($request['Cheque'])),1));
         }
