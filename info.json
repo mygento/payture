@@ -72,6 +72,8 @@
     "name": "Платежный модуль Payture",
     "description": "Процессинговый центр Payture. Интернет-эквайринг банковских карт в Magento",
     "type": "m1",
+    "git_title": "Модуль на github",
+    "git_link": "https://github.com/mygento/payture",
     "package_name": "payture",
     "url_path": "payture.html",
     "category": ["m1"],
